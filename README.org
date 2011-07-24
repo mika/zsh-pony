@@ -36,15 +36,14 @@ Grab a fully featured Zsh configuration:
 % autoload run-help
 % echo foo | xargs <esc-h>
 
-and:
+and then:
 
 % git commit<esc-h>
 
-  or even
+or even ('g' being an alias for git and 'co' and git alias for commit):
 
 % g co<esc-h>
 #+END_EXAMPLE
-
 * Completion System
 #+BEGIN_EXAMPLE
 % autoload compinit && compinit
@@ -97,7 +96,7 @@ vs.
 % <ctrl-r>scp*r
 #+END_EXAMPLE
 ** Zsh Line Editor (AKA zle)
-ctrl-x-z provides help_zle_parse_keybindings in grml-zshrc
+ctrl-x-z provides help\_zle\_parse\_keybindings in grml-zshrc
 ** Some interesting keybindings
 | Keybinding | Meaning                                                            |
 |------------+--------------------------------------------------------------------|
@@ -141,7 +140,8 @@ precmd () { RPROMPT="%(?..:()%" }
 ** Exit code in prompt, if it's not exit code 0
 ** Special functions
 *** precmd(): executed before each prompt - e.g. for setting prompt information
-*** preexec(): running before every command - e.g. for setting GNU screen title* Get VCS information into your prompt - vcs_info
+*** preexec(): running before every command - e.g. for setting GNU screen title
+* Get VCS information into your prompt - vcs_info
 #+BEGIN_EXAMPLE
 autoload -Uz vcs_info
 precmd() {
@@ -151,7 +151,6 @@ precmd() {
 }
 PS1="%m%(1v.%F{green}%1v%f.)%# "
 #+END_EXAMPLE
-
 * Hashed directories
 #+BEGIN_EXAMPLE
 % hash -d doc=/usr/share/doc
@@ -219,10 +218,11 @@ cd () {
 % cd /etc/fstab
 #+END_EXAMPLE
 ** grml-zsh-fg
+#+BEGIN_EXAMPLE
 % vim # ... <ctrl-z>
 % echo foobar
 % <ctrl-z>
-
+#+END_EXAMPLE
 ** sudo-command-line
 #+BEGIN_EXAMPLE
 % which sudo-command-line
@@ -256,11 +256,18 @@ sudo-command-line () {
 #+END_EXAMPLE
 * FAQ
 1) Q: How to I get a listing of all my currently in use options?
-   Answer: run setopt ksh_option_print && setopt to get a listing of all current settings
+Answer:
+#+BEGIN_EXAMPLE
+setopt ksh_option_print && setopt
+#+END_EXAMPLE
 2) Q: Why do I get "zsh: command not found:" even though I just installed the program?
-   Answer: run 'rehash' or use completion system as provided by grml-zshrc
+Answer: execute:
+#+BEGIN_EXAMPLE
+% rehash
+#+END_EXAMPLE
+or use completion system as provided by grml-zshrc (completion will rehash automatically).
 3) Q: What's this strange word splitting thing?
-   Answer: http://zsh.sourceforge.net/FAQ/zshfaq03.html =>
+Answer: see http://zsh.sourceforge.net/FAQ/zshfaq03.html
 #+BEGIN_EXAMPLE
 % var="foo bar"
 % args() { echo $#; }
@@ -270,7 +277,6 @@ sudo-command-line () {
 % args $var
 2
 #+END_EXAMPLE
-
 * Resources
 ** Zsh Homepage: http://zsh.sourceforge.net/
 ** Zsh Wiki: http://zshwiki.org
