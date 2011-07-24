@@ -96,19 +96,29 @@ vs.
 % <ctrl-r>scp*r
 #+END_EXAMPLE
 ** Zsh Line Editor (AKA zle)
-ctrl-x-z provides help\_zle\_parse\_keybindings in grml-zshrc
+ctrl-x-z provides help_zle_parse_keybindings in grml-zshrc
+** Edit command line in editor
+#+BEGIN_EXAMPLE
+% autoload edit-command-line && zle -N edit-command-line
+% bindkey '\ee' edit-command-line
+% $SOME_COMMAND_LINE <esc-e>
+#+END_EXAMPLE
+** Insert a timestamp on the command line (yyyy-mm-dd)
+#+BEGIN_EXAMPLE
+insert-datestamp() { LBUFFER+=${(%):-'%D{%Y-%m-%d}'}; }
+zle -N insert-datestamp
+bindkey '^Ed' insert-datestamp
+#+END_EXAMPLE
 ** Some interesting keybindings
 | Keybinding | Meaning                                                            |
 |------------+--------------------------------------------------------------------|
 | ctrl-d     | complete + EOF                                                     |
 | ctrl-l     | clear screen                                                       |
 | ctrl-w     | delete last word                                                   |
-| ctrl-_     | undo                                                               |
+| ctrl-\_    | undo                                                               |
 | tab        | complete and take first result                                     |
 | esc-.      | insert last parameter of last typed command (similar to typing !$) |
-| esc-e      | edit the current line in $EDITOR                                   |
 | esc-m      | insert last typed word                                             |
-| ctrl-e d   | insert current timestamp (yyyy-mm-dd) on command line              |
 | ctrl-a     | begin of line                                                      |
 | ctrl-e     | end of line                                                        |
 | alt-'      | quote-line ('')                                                    |
@@ -119,7 +129,6 @@ ctrl-x-z provides help\_zle\_parse\_keybindings in grml-zshrc
 | ctrl-w     | copy last word (kill-ring)                                         |
 | ctrl-y     | yank (insert kill-ring)                                            |
 | esc-q      | push line                                                          |
-
 * URL quoting
 #+BEGIN_EXAMPLE
 % autoload -U url-quote-magic
@@ -158,6 +167,10 @@ PS1="%m%(1v.%F{green}%1v%f.)%# "
 % hash -d deb=/var/cache/apt/archives
 % sudo dpkg -i ~deb/foobar*deb
 #+END_EXAMPLE
+* On-the-fly editing of variables
+#+BEGIN_EXAMPLE
+% vared PATH
+#+END_EXAMPLE
 * History
 #+BEGIN_EXAMPLE
 % history  # last 16 events
@@ -179,7 +192,7 @@ PS1="%m%(1v.%F{green}%1v%f.)%# "
 % ^foo^bar
 
 % echo foo_bar
-% echo !$:s/foo/baz/   
+% echo !$:s/foo/baz/
 #+END_EXAMPLE
 * Suffix aliases
 #+BEGIN_EXAMPLE
@@ -230,8 +243,8 @@ sudo-command-line () {
         [[ -z $BUFFER ]] && zle up-history
         if [[ $BUFFER != sudo\ * ]]
         then
-                BUFFER="sudo $BUFFER" 
-                CURSOR=$(( CURSOR+5 )) 
+                BUFFER="sudo $BUFFER"
+                CURSOR=$(( CURSOR+5 ))
         fi
 }
 % gparted /dev/sda <ctrl-o s>
@@ -242,45 +255,48 @@ sudo-command-line () {
 #+END_EXAMPLE
 ** check out "dirstack handling" in grml-zshrc for persistent directory stack feature
 * Speed up typing
-| Long version                              | Short version            |
-|-------------------------------------------+--------------------------|
-| for i in $(seq 2 9); do echo $i ; done    | for i in {2..9}; echo $i |
-| ls $(which vim)                           | ls =vim                  |
-| cat bar baz $PIPECHAR sort                | sort <b{ar,az}           |
-| ls /usr/share/doc/mutt/examples           | ls /u/s/d/m/e<tab>       |
-| gzip -cd foo.gz && less foo               | less <(gzip -cd foo.gz)  |
-| ls >file1; ls >file2; ls >file3           | ls >file1 >file2 >file3  |
-| TODO                                      | less <file1 <file2       |
-| echo $PATH ; $COPY_PASTE; export PATH=... | vared PATH               |
-| TODO                                      | xpdf =(zcat ~doc/grml-docs/zsh/grml-zsh-refcard.pdf.gz) |
+| Long version                           | Short version                                           |
+|----------------------------------------+---------------------------------------------------------|
+| for i in $(seq 2 9); do echo $i ; done | for i in {2..9}; echo $i                                |
+| ls $(which vim)                        | ls =vim                                                 |
+| cat bar baz $PIPECHAR sort             | sort <b{ar,az}                                          |
+| ls /usr/share/doc/mutt/examples        | ls /u/s/d/m/e<tab>                                      |
+| gzip -cd foo.gz && less foo            | less <(gzip -cd foo.gz)                                 |
+| ls >file1; ls >file2; ls >file3        | ls >file1 >file2 >file3                                 |
+| -                                      | less <file1 <file2                                      |
+| -                                      | diff <(sort foo) <(sort bar)                            |
+| -                                      | xpdf =(zcat ~doc/grml-docs/zsh/grml-zsh-refcard.pdf.gz) |
 #+END_EXAMPLE
 * FAQ
 1) Q: How to I get a listing of all my currently in use options?
-Answer:
-#+BEGIN_EXAMPLE
-setopt ksh_option_print && setopt
-#+END_EXAMPLE
+
+  Answer:
+  #+BEGIN_EXAMPLE
+  setopt ksh_option_print && setopt
+  #+END_EXAMPLE
 2) Q: Why do I get "zsh: command not found:" even though I just installed the program?
-Answer: execute:
-#+BEGIN_EXAMPLE
-% rehash
-#+END_EXAMPLE
-or use completion system as provided by grml-zshrc (completion will rehash automatically).
+
+  Answer: execute:
+  #+BEGIN_EXAMPLE
+  % rehash
+  #+END_EXAMPLE
+  or use completion system as provided by grml-zshrc (completion will rehash automatically).
 3) Q: What's this strange word splitting thing?
-Answer: see http://zsh.sourceforge.net/FAQ/zshfaq03.html
-#+BEGIN_EXAMPLE
-% var="foo bar"
-% args() { echo $#; }
-% args $var
-1
-% setopt shwordsplit
-% args $var
-2
-#+END_EXAMPLE
-* Resources
-** Zsh Homepage: http://zsh.sourceforge.net/
-** Zsh Wiki: http://zshwiki.org
-** Zsh Manpages: man zshall
-** Grml's Zsh stuff: http://grml.org/zsh/ (config, grml-zsh-refcard, grmlzshrc(5), zsh-lovers,...)
-** Book: http://www.bash2zsh.com/
-** Zsh Reference Card: http://www.bash2zsh.com/zsh_refcard/refcard.pdf
+
+  Answer: see http://zsh.sourceforge.net/FAQ/zshfaq03.html
+  #+BEGIN_EXAMPLE
+  % var="foo bar"
+  % args() { echo $#; }
+  % args $var
+  1
+  % setopt shwordsplit
+  % args $var
+  2
+  #+END_EXAMPLE
+* Important Resources
+1) Zsh Homepage: http://zsh.sourceforge.net/
+2) Zsh Wiki: http://zshwiki.org
+3) Zsh Manpages: man zshall
+4) Zsh Reference Card: http://www.bash2zsh.com/zsh_refcard/refcard.pdf
+5) Book: http://www.bash2zsh.com/
+6) Grml's Zsh stuff: http://grml.org/zsh/
