@@ -9,30 +9,30 @@ The Zsh Ponny
 
 * Grml-zshrc
 Grab a fully featured Zsh configuration:
-#+begin_src
+#+BEGIN_EXAMPLE
 % wget -O .zshrc        http://git.grml.org/f/grml-etc-core/etc/zsh/zshrc
-#+end_src
+#+END_EXAMPLE
 * Switching directories for lazy people
-#+begin_src
+#+BEGIN_EXAMPLE
 % setopt autocd && /tmp
-#+end_src
+#+END_EXAMPLE
 * Share history file amongst all Zsh sessions, ignoring dupes
-#+begin_src
+#+BEGIN_EXAMPLE
 % setopt append_history share_history histignorealldups
-#+end_src
+#+END_EXAMPLE
 * Option Setting in Zsh, AKA setopt*
-#+begin_src shell
+#+BEGIN_EXAMPLE
 % setopt $OPTION
 % man zshoptions
-#+end_src
+#+END_EXAMPLE
 * Replace spaces in filenames with a underline
-#+begin_src
+#+BEGIN_EXAMPLE
 % autoload -U zmv
 % touch 1\ 2  3\ 4\ 5
 % zmv '* *' '$f:gs/ /_'
-#+end_src
+#+END_EXAMPLE
 * Fast Manpage access
-#+begin_src
+#+BEGIN_EXAMPLE
 % autoload run-help
 % echo foo | xargs <esc-h>
 
@@ -43,23 +43,23 @@ and:
   or even
 
 % g co<esc-h>
-#+end_src
+#+END_EXAMPLE
 
 * Completion System
-#+begin_src 
+#+BEGIN_EXAMPLE
 % autoload compinit && compinit
 % kill c<tab>
 % man z<tab>
 % dpkg -L <tab>
-#+end_src
+#+END_EXAMPLE
 ** Menu Selection
 *** Pick item but stay in the menu
-#+begin_src
+#+BEGIN_EXAMPLE
 % bindkey -M menuselect "+" accept-and-menu-complete
 % ls <tab> +
-#+end_src
+#+END_EXAMPLE
 * Globbing / Glob Qualifier
-#+begin_src shell
+#+BEGIN_EXAMPLE
 % setopt extendedglob
 % rm ../debianpackage(.)   # remove files only
 % ls /etc/*(@)             # list symlinks only
@@ -69,7 +69,7 @@ and:
 % ls **/*(-@)              # list dangling symlinks
 
 # Tip: run e.g. `ls *(<tab>` to get help regarding globbing.
-#+end_src
+#+END_EXAMPLE
 * Keybindings
 ** Run `bindkey` to get a listing
 ** Get emacs-like keybindings
@@ -77,13 +77,13 @@ Zsh defaults to vi keybindings if $VISUAL or $EDITOR contain string 'vi'.
 Run 'bindkey -e' to get emacs-like keybindings then.
 ** Tip: run "bindkey ctrl-v <keys>" to find out which action is bount to a key
 ** Remove last part from directory name
-#+begin_src 
+#+BEGIN_EXAMPLE
 % cd /usr/share/doc/mutt/examples/<alt+backspace>
 % echo $WORDCHARS
 *?_-.[]~=/&;!#$%^(){}<>
-#+end_src
+#+END_EXAMPLE
 ** Keybindings {up,down}-line-or-search and history-beginning-search-{backward,forward}-end
-#+begin_src sh
+#+BEGIN_EXAMPLE
 % echo 123
 % echo 234
 % ls
@@ -91,11 +91,11 @@ and then:
 % echo <cursor-up|down>
 vs.
 % echo 2<page-up|down>
-#+end_src
+#+END_EXAMPLE
 ** Incremental search with history-incremental-pattern-search-backward:
-#+begin_src 
+#+BEGIN_EXAMPLE
 % <ctrl-r>scp*r
-#+end_src
+#+END_EXAMPLE
 ** Zsh Line Editor (AKA zle)
 ctrl-x-z provides help_zle_parse_keybindings in grml-zshrc
 ** Some interesting keybindings
@@ -122,27 +122,27 @@ ctrl-x-z provides help_zle_parse_keybindings in grml-zshrc
 | esc-q      | push line                                                          |
 
 * URL quoting
-#+begin_src 
+#+BEGIN_EXAMPLE
 % autoload -U url-quote-magic
 % zle -N self-insert url-quote-magic
-#+end_src
+#+END_EXAMPLE
 
 * Prompt
-#+begin_src 
+#+BEGIN_EXAMPLE
 % autoload -U promptinit
 % promptinit
 % prompt fire
 % prompt <tab>
-#+end_src
+#+END_EXAMPLE
 ** RPOMPT with a smiley (note: the version in grml-zshrc is more sophisticated -> moving smiley)
-#+begin_src
+#+BEGIN_EXAMPLE
 precmd () { RPROMPT="%(?..:()%" }
-#+end_src
+#+END_EXAMPLE
 ** Exit code in prompt, if it's not exit code 0
 ** Special functions
 *** precmd(): executed before each prompt - e.g. for setting prompt information
 *** preexec(): running before every command - e.g. for setting GNU screen title* Get VCS information into your prompt - vcs_info
-#+begin_src 
+#+BEGIN_EXAMPLE
 autoload -Uz vcs_info
 precmd() {
   psvar=()
@@ -150,28 +150,28 @@ precmd() {
   [[ -n $vcs_info_msg_0_ ]] && psvar[1]="$vcs_info_msg_0_"
 }
 PS1="%m%(1v.%F{green}%1v%f.)%# "
-#+end_src
+#+END_EXAMPLE
 
 * Hashed directories
-#+begin_src 
+#+BEGIN_EXAMPLE
 % hash -d doc=/usr/share/doc
 % cd ~doc
 % hash -d deb=/var/cache/apt/archives
 % sudo dpkg -i ~deb/foobar*deb
-#+end_src
+#+END_EXAMPLE
 * History
-#+begin_src 
+#+BEGIN_EXAMPLE
 % history  # last 16 events
 % history -E 0  # all history events including date/time information
 % !23       # Re-execute history command 23
-#+end_src
+#+END_EXAMPLE
 ** Top 10 commands
 ** Check your history for most frequently used commands and create aliases/functions for them (AKA top10):
-#+begin_src 
+#+BEGIN_EXAMPLE
 % print -l -- ${(o)history%% *} | uniq -c | sort -nr | head -n 10
-#+end_src
+#+END_EXAMPLE
 * Text replacing
-#+begin_src 
+#+BEGIN_EXAMPLE
 % mkdir -p /tmp/linux-2.6.3{8,9}/demo
 % cd /tmp/linux-2.6.38/demo
 % cd 38 <tab>
@@ -181,30 +181,30 @@ PS1="%m%(1v.%F{green}%1v%f.)%# "
 
 % echo foo_bar
 % echo !$:s/foo/baz/   
-#+end_src
+#+END_EXAMPLE
 * Suffix aliases
-#+begin_src 
+#+BEGIN_EXAMPLE
 % alias -s txt=vim
 % foobar.txt
-#+end_src
+#+END_EXAMPLE
 * Grml-zshrc specific stuff
 ** List changelog of a Debian package
-#+begin_src 
+#+BEGIN_EXAMPLE
 % dchange $DEBIAN_PACKAGE
-#+end_src
+#+END_EXAMPLE
 ** In-place mkdir to create directory under cursor or the selected area
-#+begin_src 
+#+BEGIN_EXAMPLE
 % cp file /tmp/doesnotexist/<ctrl-xM>
-#+end_src
+#+END_EXAMPLE
 ** Create a temporary directory and change cwd to it
-#+begin_src 
+#+BEGIN_EXAMPLE
 % cdt
-#+end_src
+#+END_EXAMPLE
 ** Directory specific shell configuration with Zsh
 See http://michael-prokop.at/blog/2009/05/30/directory-specific-shell-configuration-with-zsh/
 
 ** Smart cd
-#+begin_src 
+#+BEGIN_EXAMPLE
 % which cd
 cd () {
         if [[ -f ${1} ]]
@@ -217,14 +217,14 @@ cd () {
         fi
 }
 % cd /etc/fstab
-#+end_src
+#+END_EXAMPLE
 ** grml-zsh-fg
 % vim # ... <ctrl-z>
 % echo foobar
 % <ctrl-z>
 
 ** sudo-command-line
-#+begin_src 
+#+BEGIN_EXAMPLE
 % which sudo-command-line
 sudo-command-line () {
         [[ -z $BUFFER ]] && zle up-history
@@ -235,11 +235,11 @@ sudo-command-line () {
         fi
 }
 % gparted /dev/sda <ctrl-o s>
-#+end_src
+#+END_EXAMPLE
 * Fast directory switching
-#+begin_src 
+#+BEGIN_EXAMPLE
 % cd -<tab>
-#+end_src
+#+END_EXAMPLE
 ** check out "dirstack handling" in grml-zshrc for persistent directory stack feature
 * Speed up typing
 | Long version                              | Short version            |
@@ -253,7 +253,7 @@ sudo-command-line () {
 | TODO                                      | less <file1 <file2       |
 | echo $PATH ; $COPY_PASTE; export PATH=... | vared PATH               |
 | TODO                                      | xpdf =(zcat ~doc/grml-docs/zsh/grml-zsh-refcard.pdf.gz) |
-#+end_src
+#+END_EXAMPLE
 * FAQ
 1) Q: How to I get a listing of all my currently in use options?
    Answer: run setopt ksh_option_print && setopt to get a listing of all current settings
@@ -261,7 +261,7 @@ sudo-command-line () {
    Answer: run 'rehash' or use completion system as provided by grml-zshrc
 3) Q: What's this strange word splitting thing?
    Answer: http://zsh.sourceforge.net/FAQ/zshfaq03.html =>
-#+begin_src sh
+#+BEGIN_EXAMPLE
 % var="foo bar"
 % args() { echo $#; }
 % args $var
@@ -269,7 +269,7 @@ sudo-command-line () {
 % setopt shwordsplit
 % args $var
 2
-#+end_src
+#+END_EXAMPLE
 
 * Resources
 ** Zsh Homepage: http://zsh.sourceforge.net/
