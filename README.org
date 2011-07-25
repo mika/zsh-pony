@@ -79,6 +79,8 @@ zstyle ':completion:*:default'         list-colors ${(s.:.)LS_COLORS}
 #+END_EXAMPLE
 * Keybindings
 ** Run `bindkey` to get a listing
+1) \^ := ctrl
+2) \^[ := esc
 ** Get emacs-like keybindings
 Zsh defaults to vi keybindings if $VISUAL or $EDITOR contain string 'vi'.
 Run 'bindkey -e' to get emacs-like keybindings then.
