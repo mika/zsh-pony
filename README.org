@@ -45,6 +45,7 @@ or even ('g' being an alias for git and 'co' and git alias for commit):
 % g co<esc-h>
 #+END_EXAMPLE
 * Completion System
+** Enable completion
 #+BEGIN_EXAMPLE
 % autoload compinit && compinit
 % kill c<tab>
@@ -52,6 +53,13 @@ or even ('g' being an alias for git and 'co' and git alias for commit):
 % dpkg -L <tab>
 #+END_EXAMPLE
 ** Menu Selection
+#+BEGIN_EXAMPLE
+% zstyle ':completion:*:history-words'   menu yes
+#+END_EXAMPLE
+** Use colors in completion
+#+BEGIN_EXAMPLE
+zstyle ':completion:*:default'         list-colors ${(s.:.)LS_COLORS}
+#+END_EXAMPLE
 *** Pick item but stay in the menu
 #+BEGIN_EXAMPLE
 % bindkey -M menuselect "+" accept-and-menu-complete
@@ -75,6 +83,24 @@ or even ('g' being an alias for git and 'co' and git alias for commit):
 Zsh defaults to vi keybindings if $VISUAL or $EDITOR contain string 'vi'.
 Run 'bindkey -e' to get emacs-like keybindings then.
 ** Tip: run "bindkey ctrl-v <keys>" to find out which action is bount to a key
+** Some interesting keybindings
+| Keybinding | Meaning                                                            |
+|------------+--------------------------------------------------------------------|
+| ctrl-d     | complete + EOF                                                     |
+| ctrl-l     | clear screen                                                       |
+| ctrl-w     | delete last word                                                   |
+| ctrl-\_    | undo                                                               |
+| tab        | complete and take first result                                     |
+| esc-.      | insert last parameter of last typed command (similar to typing !$) |
+| ctrl-a     | begin of line                                                      |
+| ctrl-e     | end of line                                                        |
+| alt-'      | quote-line ('')                                                    |
+| alt-?      | which-command                                                      |
+| ctrl-k     | kill line                                                          |
+| ctrl-u     | kill while line (kill-ring)                                        |
+| ctrl-w     | copy last word (kill-ring)                                         |
+| ctrl-y     | yank (insert kill-ring)                                            |
+| esc-q      | push line                                                          |
 ** Remove last part from directory name
 #+BEGIN_EXAMPLE
 % cd /usr/share/doc/mutt/examples/<alt+backspace>
@@ -109,32 +135,25 @@ insert-datestamp() { LBUFFER+=${(%):-'%D{%Y-%m-%d}'}; }
 zle -N insert-datestamp
 bindkey '^Ed' insert-datestamp
 #+END_EXAMPLE
-** Some interesting keybindings
-| Keybinding | Meaning                                                            |
-|------------+--------------------------------------------------------------------|
-| ctrl-d     | complete + EOF                                                     |
-| ctrl-l     | clear screen                                                       |
-| ctrl-w     | delete last word                                                   |
-| ctrl-\_    | undo                                                               |
-| tab        | complete and take first result                                     |
-| esc-.      | insert last parameter of last typed command (similar to typing !$) |
-| esc-m      | insert last typed word                                             |
-| ctrl-a     | begin of line                                                      |
-| ctrl-e     | end of line                                                        |
-| alt-'      | quote-line ('')                                                    |
-| alt-?      | which-command                                                      |
-| ctrl-x a   | complete alias                                                     |
-| ctrl-k     | kill line                                                          |
-| ctrl-u     | kill while line (kill-ring)                                        |
-| ctrl-w     | copy last word (kill-ring)                                         |
-| ctrl-y     | yank (insert kill-ring)                                            |
-| esc-q      | push line                                                          |
+** Insert last typed word
+#+BEGIN_EXAMPLE
+% insert-last-typed-word() { zle insert-last-word -- 0 -1 };
+% zle -N insert-last-typed-word;
+% bindkey "\em" insert-last-typed-word
+% mv foobar <esc-m>
+#+END_EXAMPLE
+** Complete word from history with menu
+#+BEGIN_EXAMPLE
+% zle -C hist-complete complete-word _generic
+% zstyle ':completion:hist-complete:*' completer _history
+% bindkey "^X^X" hist-complete
+#+END_EXAMPLE
 * URL quoting
 #+BEGIN_EXAMPLE
 % autoload -U url-quote-magic
 % zle -N self-insert url-quote-magic
 #+END_EXAMPLE
-
+Disclaimer: annoying when using e.g. http://example.org/foo{1,2,3}.tgz
 * Prompt
 #+BEGIN_EXAMPLE
 % autoload -U promptinit
@@ -142,14 +161,14 @@ bindkey '^Ed' insert-datestamp
 % prompt fire
 % prompt <tab>
 #+END_EXAMPLE
-** RPOMPT with a smiley (note: the version in grml-zshrc is more sophisticated -> moving smiley)
-#+BEGIN_EXAMPLE
-precmd () { RPROMPT="%(?..:()%" }
-#+END_EXAMPLE
 ** Exit code in prompt, if it's not exit code 0
 ** Special functions
 *** precmd(): executed before each prompt - e.g. for setting prompt information
 *** preexec(): running before every command - e.g. for setting GNU screen title
+** RPOMPT with a smiley (note: the version in grml-zshrc is more sophisticated -> moving smiley)
+#+BEGIN_EXAMPLE
+precmd () { RPROMPT="%(?..:()%" }
+#+END_EXAMPLE
 * Get VCS information into your prompt - vcs_info
 #+BEGIN_EXAMPLE
 autoload -Uz vcs_info
