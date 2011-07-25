@@ -1,5 +1,5 @@
-The Zsh Ponny
-=============
+The Zsh Pony
+============
 
 * Preface
 
@@ -196,8 +196,20 @@ PS1="%m%(1v.%F{green}%1v%f.)%# "
 #+BEGIN_EXAMPLE
 % history  # last 16 events
 % history -E 0  # all history events including date/time information
-% !23       # Re-execute history command 23
+% !23      # Re-execute history command 23
+% !!       # The last command.
+% !$       # Last word of the last command.
+% !-2      # The last but one command.
+% !-2$     # The last word of the command before the last command.
+% !#$      # The last word of the current command line.
+% !#0      # The first word of the current command line.
+% !?foo    # The last command that matches the pattern `foo'.
+% !?foo?1  # The second word of the last command line that matches `foo'.
 #+END_EXAMPLE
+
+...and that's really just the start. History expansion is extremely versatile
+and powerful - but also a bit cryptic for the untrained eye. Practice, young
+padawan, makes perfect. .o( man zshexpn | less -p '\^HISTO.*ANSION$' )
 ** Top 10 commands
 ** Check your history for most frequently used commands and create aliases/functions for them (AKA top10):
 #+BEGIN_EXAMPLE
@@ -294,6 +306,10 @@ sudo-command-line () {
   Answer:
   #+BEGIN_EXAMPLE
   setopt ksh_option_print && setopt
+
+or:
+
+  printf '%s=%s\n' "${(@kv)options}"
   #+END_EXAMPLE
 2) Q: Why do I get "zsh: command not found:" even though I just installed the program?
 
@@ -319,5 +335,6 @@ sudo-command-line () {
 2) Zsh Wiki: http://zshwiki.org
 3) Zsh Manpages: man zshall
 4) Zsh Reference Card: http://www.bash2zsh.com/zsh_refcard/refcard.pdf
-5) Book: http://www.bash2zsh.com/
-6) Grml's Zsh stuff: http://grml.org/zsh/
+5) Zsh Talk by caphuso:  http://ft.bewatermyfriend.org/comp/zshtalk.html
+6) Book: http://www.bash2zsh.com/
+7) Grml's Zsh stuff: http://grml.org/zsh/
