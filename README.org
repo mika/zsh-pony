@@ -56,33 +56,53 @@ or even ('g' being an alias for git and 'co' and git alias for commit):
 #+BEGIN_EXAMPLE
 % zstyle ':completion:*:history-words'   menu yes
 #+END_EXAMPLE
+
+Layout is :completion:FUNCTION:COMPLETER:COMMAND-OR-MAGIC-CONTEXT:ARGUMENT:TAG
+Tip: Get completion help running 'ctrl-x h'.
 ** Use colors in completion
 #+BEGIN_EXAMPLE
 zstyle ':completion:*:default'         list-colors ${(s.:.)LS_COLORS}
 #+END_EXAMPLE
-*** Pick item but stay in the menu
+** Pick item but stay in the menu
 #+BEGIN_EXAMPLE
 % bindkey -M menuselect "+" accept-and-menu-complete
 % ls <tab> +
 #+END_EXAMPLE
-* Globbing / Glob Qualifier
+* Globbing / Glob Qualifiers
+Makes find(1) useless for many jobs.
 #+BEGIN_EXAMPLE
 % setopt extendedglob
 % rm ../debianpackage(.)   # remove files only
+% ls -d *(/)               # list directories only
 % ls /etc/*(@)             # list symlinks only
 % ls -l *.(png|jpg|gif)    # list pictures only
 % ls *(*)                  # list executables only
 % ls /etc/**/zsh           # which directories contain 'zsh'?
-% ls **/*(-@)              # list dangling symlinks
+% ls **/*(-@)              # list dangling symlinks ('**' recurses down directory trees)
+% ls foo*~*bar*            # match everything that starts with foo but doesn't contain bar
+#+END_EXAMPLE
 
-# Tip: run e.g. `ls *(<tab>` to get help regarding globbing.
+The e glob qualifier -  e.g. to match all files of which file
+says that they are JPEGs:
+
+#+BEGIN_EXAMPLE
+% ls *(e:'file $REPLY | grep -q JPEG':)
+#+END_EXAMPLE
+
+- (#s) or (#e) for what ^ and $ are in regexps (beginning of line/end of line)
+- (#b) or (#m) to enable backreferences
+- (#i) to match case insensitive
+- (#a) to match approximately (certain errors are ignored, e.g. "(#a1)foo*" matches the string "ofobar")
+
+Tip: run e.g. `ls *(<tab>` to get help regarding globbing.
 #+END_EXAMPLE
 * Keybindings
-** Run `bindkey` to get a listing
+** Run `bindkey` to get a listing of currently active keybindings
+Notes:
 1) \^ := ctrl
 2) \^[ := esc
 ** Get emacs-like keybindings
-Zsh defaults to vi keybindings if $VISUAL or $EDITOR contain string 'vi'.
+Zsh defaults to vi keybindings ('bindkey -v') if $VISUAL or $EDITOR contain string 'vi'.
 Run 'bindkey -e' to get emacs-like keybindings then.
 ** Tip: run "bindkey ctrl-v <keys>" to find out which action is bount to a key
 ** Some interesting keybindings
@@ -124,7 +144,14 @@ vs.
 % <ctrl-r>scp*r
 #+END_EXAMPLE
 ** Zsh Line Editor (AKA zle)
-ctrl-x-z provides help_zle_parse_keybindings in grml-zshrc
+1) It's what readline is for bash (move, delete, copy words/lines/...)
+2) Basic layout of custom widgets, used like functions:
+#+BEGIN_EXAMPLE
+% foobar() { LBUFFER="foobar $LBUFFER"; } # function
+% zle -N foobar         # declare function as bindable widget
+% bindkey '^x^s' foobar # bind command to a keybinding
+#+END_EXAMPLE
+3) ctrl-x-z provides help_zle_parse_keybindings in grml-zshrc
 ** Edit command line in editor
 #+BEGIN_EXAMPLE
 % autoload edit-command-line && zle -N edit-command-line
@@ -150,7 +177,13 @@ bindkey '^Ed' insert-datestamp
 % zstyle ':completion:hist-complete:*' completer _history
 % bindkey "^X^X" hist-complete
 #+END_EXAMPLE
-* URL quoting
+* Loadable modules
+** Play tetris
+#+BEGIN_EXAMPLE
+% autoload -U tetris
+% tetris
+#+END_EXAMPLE
+** URL quoting
 #+BEGIN_EXAMPLE
 % autoload -U url-quote-magic
 % zle -N self-insert url-quote-magic
@@ -193,6 +226,7 @@ PS1="%m%(1v.%F{green}%1v%f.)%# "
 % vared PATH
 #+END_EXAMPLE
 * History
+Supports csh style bang history expansion.
 #+BEGIN_EXAMPLE
 % history  # last 16 events
 % history -E 0  # all history events including date/time information
@@ -210,6 +244,11 @@ PS1="%m%(1v.%F{green}%1v%f.)%# "
 ...and that's really just the start. History expansion is extremely versatile
 and powerful - but also a bit cryptic for the untrained eye. Practice, young
 padawan, makes perfect. .o( man zshexpn | less -p '\^HISTO.*ANSION$' )
+** fc
++ fc -p/fc -a/fc -P deals with the "history stack"
++ "fc -p" clears out the current history and starts with a new one,
+  until you run fc -P, which will restore the old history again
++ You can use that to "bind" certain histories to specific directories.
 ** Top 10 commands
 ** Check your history for most frequently used commands and create aliases/functions for them (AKA top10):
 #+BEGIN_EXAMPLE
@@ -231,6 +270,8 @@ padawan, makes perfect. .o( man zshexpn | less -p '\^HISTO.*ANSION$' )
 #+BEGIN_EXAMPLE
 % alias -s txt=vim
 % foobar.txt
+% alias -s pdf=xpdf
+% print.pdf
 #+END_EXAMPLE
 * Grml-zshrc specific stuff
 ** List changelog of a Debian package
@@ -247,7 +288,7 @@ padawan, makes perfect. .o( man zshexpn | less -p '\^HISTO.*ANSION$' )
 #+END_EXAMPLE
 ** Directory specific shell configuration with Zsh
 See http://michael-prokop.at/blog/2009/05/30/directory-specific-shell-configuration-with-zsh/
-
+Hint: do you remember the fc section? You can combine the directory specific shell configuration with 'fc -p $file'!
 ** Smart cd
 #+BEGIN_EXAMPLE
 % which cd
@@ -335,6 +376,15 @@ or:
 2) Zsh Wiki: http://zshwiki.org
 3) Zsh Manpages: man zshall
 4) Zsh Reference Card: http://www.bash2zsh.com/zsh_refcard/refcard.pdf
-5) Zsh Talk by caphuso:  http://ft.bewatermyfriend.org/comp/zshtalk.html
-6) Book: http://www.bash2zsh.com/
-7) Grml's Zsh stuff: http://grml.org/zsh/
+5) User's Guide to ZSH: http://zsh.sourceforge.net/Guide/ (old but still interesting)
+6) Zsh Talk by caphuso:  http://ft.bewatermyfriend.org/comp/zshtalk.html
+7) English Book: http://www.bash2zsh.com/
+8) German Book: http://zshbuch.org/
+9) Grml's Zsh stuff: http://grml.org/zsh/
+
+* Credits
+
+Thanks to Frank Terbeck for reviewing and his valuable feedback (which isn't limited to this document :)).
+
+* Copyright
+(c) 2011 by Michael Prokop <mika@grml.org>
