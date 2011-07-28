@@ -2,7 +2,7 @@
                              ============
 
 Author: 
-Date: 2011-07-28 16:35:09 CEST
+Date: 2011-07-28 16:38:28 CEST
 
 
 ============
@@ -68,7 +68,6 @@ Table of Contents
 23 Important Resources 
 24 Credits 
 25 Copyright 
-26 Feedback 
 
 
 1 Preface 
@@ -623,15 +622,6 @@ Thanks to Frank Terbeck for reviewing and his valuable feedback (which isn't lim
 25 Copyright 
 -------------
 (c) 2011 by Michael Prokop <mika@grml.org>
-
-26 Feedback 
-------------
-
-
-
-  % git clone git://github.com/mika/zsh-pony
-
-
 
 [1] DEFINITION NOT FOUND: 1
 
