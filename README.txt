@@ -2,7 +2,7 @@
                              ============
 
 Author: 
-Date: 2011-07-28 16:30:10 CEST
+Date: 2011-07-28 16:35:09 CEST
 
 
 ============
@@ -68,6 +68,7 @@ Table of Contents
 23 Important Resources 
 24 Credits 
 25 Copyright 
+26 Feedback 
 
 
 1 Preface 
@@ -154,6 +155,7 @@ Grab a fully featured Zsh configuration:
 
 
 Layout is :completion:FUNCTION:COMPLETER:COMMAND-OR-MAGIC-CONTEXT:ARGUMENT:TAG
+
 Tip: Get completion help running 'ctrl-x h'.
 
 8.3 Use colors in completion 
@@ -621,6 +623,15 @@ Thanks to Frank Terbeck for reviewing and his valuable feedback (which isn't lim
 25 Copyright 
 -------------
 (c) 2011 by Michael Prokop <mika@grml.org>
+
+26 Feedback 
+------------
+
+
+
+  % git clone git://github.com/mika/zsh-pony
+
+
 
 [1] DEFINITION NOT FOUND: 1
 

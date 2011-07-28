@@ -58,6 +58,7 @@ or even ('g' being an alias for git and 'co' and git alias for commit):
 #+END_EXAMPLE
 
 Layout is :completion:FUNCTION:COMPLETER:COMMAND-OR-MAGIC-CONTEXT:ARGUMENT:TAG
+
 Tip: Get completion help running 'ctrl-x h'.
 ** Use colors in completion
 #+BEGIN_EXAMPLE
@@ -388,3 +389,9 @@ Thanks to Frank Terbeck for reviewing and his valuable feedback (which isn't lim
 
 * Copyright
 (c) 2011 by Michael Prokop <mika@grml.org>
+
+* Feedback
+
+#+BEGIN_EXAMPLE
+% git clone git://github.com/mika/zsh-pony
+#+END_EXAMPLE
