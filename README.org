@@ -54,7 +54,7 @@ or even ('g' being an alias for git and 'co' and git alias for commit):
 #+END_EXAMPLE
 ** Menu Selection
 #+BEGIN_EXAMPLE
-% zstyle ':completion:*:history-words'   menu yes
+% zstyle ':completion:*' menu select
 #+END_EXAMPLE
 
 Layout is :completion:FUNCTION:COMPLETER:COMMAND-OR-MAGIC-CONTEXT:ARGUMENT:TAG

@@ -2,7 +2,7 @@
                              ============
 
 Author: 
-Date: 2011-07-28 16:12:41 CEST
+Date: 2011-07-28 16:30:10 CEST
 
 
 ============
@@ -149,7 +149,7 @@ Grab a fully featured Zsh configuration:
 ===================
 
 
-  % zstyle ':completion:*:history-words'   menu yes
+  % zstyle ':completion:*' menu select
 
 
 
