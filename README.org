@@ -204,7 +204,7 @@ Disclaimer: annoying when using e.g. http://example.org/foo{1,2,3}.tgz
 #+BEGIN_EXAMPLE
 precmd () { RPROMPT="%(?..:()%" }
 #+END_EXAMPLE
-* Get VCS information into your prompt - vcs_info
+* Get VCS information into your prompt - vcs\_info
 #+BEGIN_EXAMPLE
 autoload -Uz vcs_info
 precmd() {
