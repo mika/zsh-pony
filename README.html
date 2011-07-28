@@ -1,0 +1,1230 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>The Zsh Pony</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2011-07-28 16:10:41 CEST"/>
+<meta name="author" content=""/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">The Zsh Pony</h1>
+<p>============
+</p>
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Preface </a></li>
+<li><a href="#sec-2">2 Grml-zshrc </a></li>
+<li><a href="#sec-3">3 Switching directories for lazy people </a></li>
+<li><a href="#sec-4">4 Share history file amongst all Zsh sessions, ignoring dupes </a></li>
+<li><a href="#sec-5">5 Option Setting in Zsh, AKA setopt* </a></li>
+<li><a href="#sec-6">6 Replace spaces in filenames with a underline </a></li>
+<li><a href="#sec-7">7 Fast Manpage access </a></li>
+<li><a href="#sec-8">8 Completion System </a>
+<ul>
+<li><a href="#sec-8-1">8.1 Enable completion </a></li>
+<li><a href="#sec-8-2">8.2 Menu Selection </a></li>
+<li><a href="#sec-8-3">8.3 Use colors in completion </a></li>
+<li><a href="#sec-8-4">8.4 Pick item but stay in the menu </a></li>
+</ul>
+</li>
+<li><a href="#sec-9">9 Globbing / Glob Qualifiers </a></li>
+<li><a href="#sec-10">10 Keybindings </a>
+<ul>
+<li><a href="#sec-10-1">10.1 Run `bindkey` to get a listing of currently active keybindings </a></li>
+<li><a href="#sec-10-2">10.2 Get emacs-like keybindings </a></li>
+<li><a href="#sec-10-3">10.3 Tip: run "bindkey ctrl-v &lt;keys&gt;" to find out which action is bount to a key </a></li>
+<li><a href="#sec-10-4">10.4 Some interesting keybindings </a></li>
+<li><a href="#sec-10-5">10.5 Remove last part from directory name </a></li>
+<li><a href="#sec-10-6">10.6 Keybindings {up,down}-line-or-search and history-beginning-search-{backward,forward}-end </a></li>
+<li><a href="#sec-10-7">10.7 Incremental search with history-incremental-pattern-search-backward: </a></li>
+<li><a href="#sec-10-8">10.8 Zsh Line Editor (AKA zle) </a></li>
+<li><a href="#sec-10-9">10.9 Edit command line in editor </a></li>
+<li><a href="#sec-10-10">10.10 Insert a timestamp on the command line (yyyy-mm-dd) </a></li>
+<li><a href="#sec-10-11">10.11 Insert last typed word </a></li>
+<li><a href="#sec-10-12">10.12 Complete word from history with menu </a></li>
+</ul>
+</li>
+<li><a href="#sec-11">11 Loadable modules </a>
+<ul>
+<li><a href="#sec-11-1">11.1 Play tetris </a></li>
+<li><a href="#sec-11-2">11.2 URL quoting </a></li>
+</ul>
+</li>
+<li><a href="#sec-12">12 Prompt </a>
+<ul>
+<li><a href="#sec-12-1">12.1 Exit code in prompt, if it's not exit code 0 </a></li>
+<li><a href="#sec-12-2">12.2 Special functions </a>
+<ul>
+<li><a href="#sec-12-2-1">12.2.1 precmd(): executed before each prompt - e.g. for setting prompt information </a></li>
+<li><a href="#sec-12-2-2">12.2.2 preexec(): running before every command - e.g. for setting GNU screen title </a></li>
+</ul>
+</li>
+<li><a href="#sec-12-3">12.3 RPOMPT with a smiley (note: the version in grml-zshrc is more sophisticated -&gt; moving smiley) </a></li>
+</ul>
+</li>
+<li><a href="#sec-13">13 Get VCS information into your prompt - vcs_info </a></li>
+<li><a href="#sec-14">14 Hashed directories </a></li>
+<li><a href="#sec-15">15 On-the-fly editing of variables </a></li>
+<li><a href="#sec-16">16 History </a>
+<ul>
+<li><a href="#sec-16-1">16.1 fc </a></li>
+<li><a href="#sec-16-2">16.2 Top 10 commands </a></li>
+<li><a href="#sec-16-3">16.3 Check your history for most frequently used commands and create aliases/functions for them (AKA top10): </a></li>
+</ul>
+</li>
+<li><a href="#sec-17">17 Text replacing </a></li>
+<li><a href="#sec-18">18 Suffix aliases </a></li>
+<li><a href="#sec-19">19 Grml-zshrc specific stuff </a>
+<ul>
+<li><a href="#sec-19-1">19.1 List changelog of a Debian package </a></li>
+<li><a href="#sec-19-2">19.2 In-place mkdir to create directory under cursor or the selected area </a></li>
+<li><a href="#sec-19-3">19.3 Create a temporary directory and change cwd to it </a></li>
+<li><a href="#sec-19-4">19.4 Directory specific shell configuration with Zsh </a></li>
+<li><a href="#sec-19-5">19.5 Smart cd </a></li>
+<li><a href="#sec-19-6">19.6 grml-zsh-fg </a></li>
+<li><a href="#sec-19-7">19.7 sudo-command-line </a></li>
+</ul>
+</li>
+<li><a href="#sec-20">20 Fast directory switching </a>
+<ul>
+<li><a href="#sec-20-1">20.1 check out "dirstack handling" in grml-zshrc for persistent directory stack feature </a></li>
+</ul>
+</li>
+<li><a href="#sec-21">21 Speed up typing </a></li>
+<li><a href="#sec-22">22 FAQ </a></li>
+<li><a href="#sec-23">23 Important Resources </a></li>
+<li><a href="#sec-24">24 Credits </a></li>
+<li><a href="#sec-25">25 Copyright </a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Preface </h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+  The Zsh defaults to a minimalistic configuration which doesn't show the
+  potential behind this powerful and flexible shell. The Zsh ponny project
+  provides a list of really hot stuff of what's possible with Zsh.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Grml-zshrc </h2>
+<div class="outline-text-2" id="text-2">
+
+<p>Grab a fully featured Zsh configuration:
+</p>
+
+
+<pre class="example">% wget -O .zshrc        http://git.grml.org/f/grml-etc-core/etc/zsh/zshrc
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Switching directories for lazy people </h2>
+<div class="outline-text-2" id="text-3">
+
+
+
+
+<pre class="example">% setopt autocd &amp;&amp; /tmp
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Share history file amongst all Zsh sessions, ignoring dupes </h2>
+<div class="outline-text-2" id="text-4">
+
+
+
+
+<pre class="example">% setopt append_history share_history histignorealldups
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Option Setting in Zsh, AKA setopt* </h2>
+<div class="outline-text-2" id="text-5">
+
+
+
+
+<pre class="example">% setopt $OPTION
+% man zshoptions
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Replace spaces in filenames with a underline </h2>
+<div class="outline-text-2" id="text-6">
+
+
+
+
+<pre class="example">% autoload -U zmv
+% touch 1\ 2  3\ 4\ 5
+% zmv '* *' '$f:gs/ /_'
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Fast Manpage access </h2>
+<div class="outline-text-2" id="text-7">
+
+
+
+
+<pre class="example">% autoload run-help
+% echo foo | xargs &lt;esc-h&gt;
+
+and then:
+
+% git commit&lt;esc-h&gt;
+
+or even ('g' being an alias for git and 'co' and git alias for commit):
+
+% g co&lt;esc-h&gt;
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Completion System </h2>
+<div class="outline-text-2" id="text-8">
+
+
+</div>
+
+<div id="outline-container-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> Enable completion </h3>
+<div class="outline-text-3" id="text-8-1">
+
+
+
+
+<pre class="example">% autoload compinit &amp;&amp; compinit
+% kill c&lt;tab&gt;
+% man z&lt;tab&gt;
+% dpkg -L &lt;tab&gt;
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8-2" class="outline-3">
+<h3 id="sec-8-2"><span class="section-number-3">8.2</span> Menu Selection </h3>
+<div class="outline-text-3" id="text-8-2">
+
+
+
+
+<pre class="example">% zstyle ':completion:*:history-words'   menu yes
+</pre>
+
+
+
+<p>
+Layout is :completion:FUNCTION:COMPLETER:COMMAND-OR-MAGIC-CONTEXT:ARGUMENT:TAG
+Tip: Get completion help running 'ctrl-x h'.
+</p></div>
+
+</div>
+
+<div id="outline-container-8-3" class="outline-3">
+<h3 id="sec-8-3"><span class="section-number-3">8.3</span> Use colors in completion </h3>
+<div class="outline-text-3" id="text-8-3">
+
+
+
+
+<pre class="example">zstyle ':completion:*:default'         list-colors ${(s.:.)LS_COLORS}
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8-4" class="outline-3">
+<h3 id="sec-8-4"><span class="section-number-3">8.4</span> Pick item but stay in the menu </h3>
+<div class="outline-text-3" id="text-8-4">
+
+
+
+
+<pre class="example">% bindkey -M menuselect "+" accept-and-menu-complete
+% ls &lt;tab&gt; +
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> Globbing / Glob Qualifiers </h2>
+<div class="outline-text-2" id="text-9">
+
+<p>Makes find(1) useless for many jobs.
+</p>
+
+
+<pre class="example">% setopt extendedglob
+% rm ../debianpackage(.)   # remove files only
+% ls -d *(/)               # list directories only
+% ls /etc/*(@)             # list symlinks only
+% ls -l *.(png|jpg|gif)    # list pictures only
+% ls *(*)                  # list executables only
+% ls /etc/**/zsh           # which directories contain 'zsh'?
+% ls **/*(-@)              # list dangling symlinks ('**' recurses down directory trees)
+% ls foo*~*bar*            # match everything that starts with foo but doesn't contain bar
+</pre>
+
+
+
+<p>
+The e glob qualifier -  e.g. to match all files of which file
+says that they are JPEGs:
+</p>
+
+
+
+<pre class="example">% ls *(e:'file $REPLY | grep -q JPEG':)
+</pre>
+
+
+
+<ul>
+<li>(#s) or (#e) for what ^ and $ are in regexps (beginning of line/end of line)
+</li>
+<li>(#b) or (#m) to enable backreferences
+</li>
+<li>(#i) to match case insensitive
+</li>
+<li>(#a) to match approximately (certain errors are ignored, e.g. "(#a1)foo*" matches the string "ofobar")
+</li>
+</ul>
+
+
+<p>
+Tip: run e.g. `ls *(&lt;tab&gt;` to get help regarding globbing.
+</p></div>
+
+</div>
+
+<div id="outline-container-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> Keybindings </h2>
+<div class="outline-text-2" id="text-10">
+
+
+</div>
+
+<div id="outline-container-10-1" class="outline-3">
+<h3 id="sec-10-1"><span class="section-number-3">10.1</span> Run `bindkey` to get a listing of currently active keybindings </h3>
+<div class="outline-text-3" id="text-10-1">
+
+<p>Notes:
+</p><ol>
+<li>^ := ctrl
+</li>
+<li>^[ := esc
+</li>
+</ol>
+
+</div>
+
+</div>
+
+<div id="outline-container-10-2" class="outline-3">
+<h3 id="sec-10-2"><span class="section-number-3">10.2</span> Get emacs-like keybindings </h3>
+<div class="outline-text-3" id="text-10-2">
+
+<p>Zsh defaults to vi keybindings ('bindkey -v') if $VISUAL or $EDITOR contain string 'vi'.
+Run 'bindkey -e' to get emacs-like keybindings then.
+</p></div>
+
+</div>
+
+<div id="outline-container-10-3" class="outline-3">
+<h3 id="sec-10-3"><span class="section-number-3">10.3</span> Tip: run "bindkey ctrl-v &lt;keys&gt;" to find out which action is bount to a key </h3>
+<div class="outline-text-3" id="text-10-3">
+
+</div>
+
+</div>
+
+<div id="outline-container-10-4" class="outline-3">
+<h3 id="sec-10-4"><span class="section-number-3">10.4</span> Some interesting keybindings </h3>
+<div class="outline-text-3" id="text-10-4">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Keybinding</th><th scope="col" class="left">Meaning</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">ctrl-d</td><td class="left">complete + EOF</td></tr>
+<tr><td class="left">ctrl-l</td><td class="left">clear screen</td></tr>
+<tr><td class="left">ctrl-w</td><td class="left">delete last word</td></tr>
+<tr><td class="left">ctrl-_</td><td class="left">undo</td></tr>
+<tr><td class="left">tab</td><td class="left">complete and take first result</td></tr>
+<tr><td class="left">esc-.</td><td class="left">insert last parameter of last typed command (similar to typing !$)</td></tr>
+<tr><td class="left">ctrl-a</td><td class="left">begin of line</td></tr>
+<tr><td class="left">ctrl-e</td><td class="left">end of line</td></tr>
+<tr><td class="left">alt-'</td><td class="left">quote-line ('')</td></tr>
+<tr><td class="left">alt-?</td><td class="left">which-command</td></tr>
+<tr><td class="left">ctrl-k</td><td class="left">kill line</td></tr>
+<tr><td class="left">ctrl-u</td><td class="left">kill while line (kill-ring)</td></tr>
+<tr><td class="left">ctrl-w</td><td class="left">copy last word (kill-ring)</td></tr>
+<tr><td class="left">ctrl-y</td><td class="left">yank (insert kill-ring)</td></tr>
+<tr><td class="left">esc-q</td><td class="left">push line</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-10-5" class="outline-3">
+<h3 id="sec-10-5"><span class="section-number-3">10.5</span> Remove last part from directory name </h3>
+<div class="outline-text-3" id="text-10-5">
+
+
+
+
+<pre class="example">% cd /usr/share/doc/mutt/examples/&lt;alt+backspace&gt;
+% echo $WORDCHARS
+*?_-.[]~=/&amp;;!#$%^(){}&lt;&gt;
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10-6" class="outline-3">
+<h3 id="sec-10-6"><span class="section-number-3">10.6</span> Keybindings {up,down}-line-or-search and history-beginning-search-{backward,forward}-end </h3>
+<div class="outline-text-3" id="text-10-6">
+
+
+
+
+<pre class="example">% echo 123
+% echo 234
+% ls
+and then:
+% echo &lt;cursor-up|down&gt;
+vs.
+% echo 2&lt;page-up|down&gt;
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10-7" class="outline-3">
+<h3 id="sec-10-7"><span class="section-number-3">10.7</span> Incremental search with history-incremental-pattern-search-backward: </h3>
+<div class="outline-text-3" id="text-10-7">
+
+
+
+
+<pre class="example">% &lt;ctrl-r&gt;scp*r
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10-8" class="outline-3">
+<h3 id="sec-10-8"><span class="section-number-3">10.8</span> Zsh Line Editor (AKA zle) </h3>
+<div class="outline-text-3" id="text-10-8">
+
+<ol>
+<li>It's what readline is for bash (move, delete, copy words/lines/&hellip;)
+</li>
+<li>Basic layout of custom widgets, used like functions:
+</li>
+</ol>
+
+
+
+
+<pre class="example">% foobar() { LBUFFER="foobar $LBUFFER"; } # function
+% zle -N foobar         # declare function as bindable widget
+% bindkey '^x^s' foobar # bind command to a keybinding
+</pre>
+
+
+<ol>
+<li>ctrl-x-z provides help<sub>zle</sub><sub>parse</sub><sub>keybindings</sub> in grml-zshrc
+</li>
+</ol>
+
+</div>
+
+</div>
+
+<div id="outline-container-10-9" class="outline-3">
+<h3 id="sec-10-9"><span class="section-number-3">10.9</span> Edit command line in editor </h3>
+<div class="outline-text-3" id="text-10-9">
+
+
+
+
+<pre class="example">% autoload edit-command-line &amp;&amp; zle -N edit-command-line
+% bindkey '\ee' edit-command-line
+% $SOME_COMMAND_LINE &lt;esc-e&gt;
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10-10" class="outline-3">
+<h3 id="sec-10-10"><span class="section-number-3">10.10</span> Insert a timestamp on the command line (yyyy-mm-dd) </h3>
+<div class="outline-text-3" id="text-10-10">
+
+
+
+
+<pre class="example">insert-datestamp() { LBUFFER+=${(%):-'%D{%Y-%m-%d}'}; }
+zle -N insert-datestamp
+bindkey '^Ed' insert-datestamp
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10-11" class="outline-3">
+<h3 id="sec-10-11"><span class="section-number-3">10.11</span> Insert last typed word </h3>
+<div class="outline-text-3" id="text-10-11">
+
+
+
+
+<pre class="example">% insert-last-typed-word() { zle insert-last-word -- 0 -1 };
+% zle -N insert-last-typed-word;
+% bindkey "\em" insert-last-typed-word
+% mv foobar &lt;esc-m&gt;
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10-12" class="outline-3">
+<h3 id="sec-10-12"><span class="section-number-3">10.12</span> Complete word from history with menu </h3>
+<div class="outline-text-3" id="text-10-12">
+
+
+
+
+<pre class="example">% zle -C hist-complete complete-word _generic
+% zstyle ':completion:hist-complete:*' completer _history
+% bindkey "^X^X" hist-complete
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> Loadable modules </h2>
+<div class="outline-text-2" id="text-11">
+
+
+</div>
+
+<div id="outline-container-11-1" class="outline-3">
+<h3 id="sec-11-1"><span class="section-number-3">11.1</span> Play tetris </h3>
+<div class="outline-text-3" id="text-11-1">
+
+
+
+
+<pre class="example">% autoload -U tetris
+% tetris
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-11-2" class="outline-3">
+<h3 id="sec-11-2"><span class="section-number-3">11.2</span> URL quoting </h3>
+<div class="outline-text-3" id="text-11-2">
+
+
+
+
+<pre class="example">% autoload -U url-quote-magic
+% zle -N self-insert url-quote-magic
+</pre>
+
+
+<p>
+Disclaimer: annoying when using e.g. <a href="http://example.org/foo{1,2,3}.tgz">http://example.org/foo{1,2,3}.tgz</a>
+</p></div>
+</div>
+
+</div>
+
+<div id="outline-container-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> Prompt </h2>
+<div class="outline-text-2" id="text-12">
+
+
+
+
+<pre class="example">% autoload -U promptinit
+% promptinit
+% prompt fire
+% prompt &lt;tab&gt;
+</pre>
+
+
+
+</div>
+
+<div id="outline-container-12-1" class="outline-3">
+<h3 id="sec-12-1"><span class="section-number-3">12.1</span> Exit code in prompt, if it's not exit code 0 </h3>
+<div class="outline-text-3" id="text-12-1">
+
+</div>
+
+</div>
+
+<div id="outline-container-12-2" class="outline-3">
+<h3 id="sec-12-2"><span class="section-number-3">12.2</span> Special functions </h3>
+<div class="outline-text-3" id="text-12-2">
+
+
+</div>
+
+<div id="outline-container-12-2-1" class="outline-4">
+<h4 id="sec-12-2-1"><span class="section-number-4">12.2.1</span> precmd(): executed before each prompt - e.g. for setting prompt information </h4>
+<div class="outline-text-4" id="text-12-2-1">
+
+</div>
+
+</div>
+
+<div id="outline-container-12-2-2" class="outline-4">
+<h4 id="sec-12-2-2"><span class="section-number-4">12.2.2</span> preexec(): running before every command - e.g. for setting GNU screen title </h4>
+<div class="outline-text-4" id="text-12-2-2">
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-12-3" class="outline-3">
+<h3 id="sec-12-3"><span class="section-number-3">12.3</span> RPOMPT with a smiley (note: the version in grml-zshrc is more sophisticated -&gt; moving smiley) </h3>
+<div class="outline-text-3" id="text-12-3">
+
+
+
+
+<pre class="example">precmd () { RPROMPT="%(?..:()%" }
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> Get VCS information into your prompt - vcs_info </h2>
+<div class="outline-text-2" id="text-13">
+
+
+
+
+<pre class="example">autoload -Uz vcs_info
+precmd() {
+  psvar=()
+  vcs_info
+  [[ -n $vcs_info_msg_0_ ]] &amp;&amp; psvar[1]="$vcs_info_msg_0_"
+}
+PS1="%m%(1v.%F{green}%1v%f.)%# "
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-14" class="outline-2">
+<h2 id="sec-14"><span class="section-number-2">14</span> Hashed directories </h2>
+<div class="outline-text-2" id="text-14">
+
+
+
+
+<pre class="example">% hash -d doc=/usr/share/doc
+% cd ~doc
+% hash -d deb=/var/cache/apt/archives
+% sudo dpkg -i ~deb/foobar*deb
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-15" class="outline-2">
+<h2 id="sec-15"><span class="section-number-2">15</span> On-the-fly editing of variables </h2>
+<div class="outline-text-2" id="text-15">
+
+
+
+
+<pre class="example">% vared PATH
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-16" class="outline-2">
+<h2 id="sec-16"><span class="section-number-2">16</span> History </h2>
+<div class="outline-text-2" id="text-16">
+
+<p>Supports csh style bang history expansion.
+</p>
+
+
+<pre class="example">% history  # last 16 events
+% history -E 0  # all history events including date/time information
+% !23      # Re-execute history command 23
+% !!       # The last command.
+% !$       # Last word of the last command.
+% !-2      # The last but one command.
+% !-2$     # The last word of the command before the last command.
+% !#$      # The last word of the current command line.
+% !#0      # The first word of the current command line.
+% !?foo    # The last command that matches the pattern `foo'.
+% !?foo?1  # The second word of the last command line that matches `foo'.
+</pre>
+
+
+
+<p>
+&hellip;and that's really just the start. History expansion is extremely versatile
+and powerful - but also a bit cryptic for the untrained eye. Practice, young
+padawan, makes perfect. .o( man zshexpn | less -p '^HISTO.*ANSION$' )
+</p>
+</div>
+
+<div id="outline-container-16-1" class="outline-3">
+<h3 id="sec-16-1"><span class="section-number-3">16.1</span> fc </h3>
+<div class="outline-text-3" id="text-16-1">
+
+<ul>
+<li>fc -p/fc -a/fc -P deals with the "history stack"
+</li>
+<li>"fc -p" clears out the current history and starts with a new one,
+  until you run fc -P, which will restore the old history again
+</li>
+<li>You can use that to "bind" certain histories to specific directories.
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-16-2" class="outline-3">
+<h3 id="sec-16-2"><span class="section-number-3">16.2</span> Top 10 commands </h3>
+<div class="outline-text-3" id="text-16-2">
+
+</div>
+
+</div>
+
+<div id="outline-container-16-3" class="outline-3">
+<h3 id="sec-16-3"><span class="section-number-3">16.3</span> Check your history for most frequently used commands and create aliases/functions for them (AKA top10): </h3>
+<div class="outline-text-3" id="text-16-3">
+
+
+
+
+<pre class="example">% print -l -- ${(o)history%% *} | uniq -c | sort -nr | head -n 10
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-17" class="outline-2">
+<h2 id="sec-17"><span class="section-number-2">17</span> Text replacing </h2>
+<div class="outline-text-2" id="text-17">
+
+
+
+
+<pre class="example">% mkdir -p /tmp/linux-2.6.3{8,9}/demo
+% cd /tmp/linux-2.6.38/demo
+% cd 38 &lt;tab&gt;
+
+% echo foo
+% ^foo^bar
+
+% echo foo_bar
+% echo !$:s/foo/baz/
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-18" class="outline-2">
+<h2 id="sec-18"><span class="section-number-2">18</span> Suffix aliases </h2>
+<div class="outline-text-2" id="text-18">
+
+
+
+
+<pre class="example">% alias -s txt=vim
+% foobar.txt
+% alias -s pdf=xpdf
+% print.pdf
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-19" class="outline-2">
+<h2 id="sec-19"><span class="section-number-2">19</span> Grml-zshrc specific stuff </h2>
+<div class="outline-text-2" id="text-19">
+
+
+</div>
+
+<div id="outline-container-19-1" class="outline-3">
+<h3 id="sec-19-1"><span class="section-number-3">19.1</span> List changelog of a Debian package </h3>
+<div class="outline-text-3" id="text-19-1">
+
+
+
+
+<pre class="example">% dchange $DEBIAN_PACKAGE
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-19-2" class="outline-3">
+<h3 id="sec-19-2"><span class="section-number-3">19.2</span> In-place mkdir to create directory under cursor or the selected area </h3>
+<div class="outline-text-3" id="text-19-2">
+
+
+
+
+<pre class="example">% cp file /tmp/doesnotexist/&lt;ctrl-xM&gt;
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-19-3" class="outline-3">
+<h3 id="sec-19-3"><span class="section-number-3">19.3</span> Create a temporary directory and change cwd to it </h3>
+<div class="outline-text-3" id="text-19-3">
+
+
+
+
+<pre class="example">% cdt
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-19-4" class="outline-3">
+<h3 id="sec-19-4"><span class="section-number-3">19.4</span> Directory specific shell configuration with Zsh </h3>
+<div class="outline-text-3" id="text-19-4">
+
+<p>See <a href="http://michael-prokop.at/blog/2009/05/30/directory-specific-shell-configuration-with-zsh/">http://michael-prokop.at/blog/2009/05/30/directory-specific-shell-configuration-with-zsh/</a>
+Hint: do you remember the fc section? You can combine the directory specific shell configuration with 'fc -p $file'!
+</p></div>
+
+</div>
+
+<div id="outline-container-19-5" class="outline-3">
+<h3 id="sec-19-5"><span class="section-number-3">19.5</span> Smart cd </h3>
+<div class="outline-text-3" id="text-19-5">
+
+
+
+
+<pre class="example">% which cd
+cd () {
+        if [[ -f ${1} ]]
+        then
+                [[ ! -e ${1:h} ]] &amp;&amp; return 1
+                print "Correcting ${1} to ${1:h}"
+                builtin cd ${1:h}
+        else
+                builtin cd ${1}
+        fi
+}
+% cd /etc/fstab
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-19-6" class="outline-3">
+<h3 id="sec-19-6"><span class="section-number-3">19.6</span> grml-zsh-fg </h3>
+<div class="outline-text-3" id="text-19-6">
+
+
+
+
+<pre class="example">% vim # ... &lt;ctrl-z&gt;
+% echo foobar
+% &lt;ctrl-z&gt;
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-19-7" class="outline-3">
+<h3 id="sec-19-7"><span class="section-number-3">19.7</span> sudo-command-line </h3>
+<div class="outline-text-3" id="text-19-7">
+
+
+
+
+<pre class="example">% which sudo-command-line
+sudo-command-line () {
+        [[ -z $BUFFER ]] &amp;&amp; zle up-history
+        if [[ $BUFFER != sudo\ * ]]
+        then
+                BUFFER="sudo $BUFFER"
+                CURSOR=$(( CURSOR+5 ))
+        fi
+}
+% gparted /dev/sda &lt;ctrl-o s&gt;
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-20" class="outline-2">
+<h2 id="sec-20"><span class="section-number-2">20</span> Fast directory switching </h2>
+<div class="outline-text-2" id="text-20">
+
+
+
+
+<pre class="example">% cd -&lt;tab&gt;
+</pre>
+
+
+
+</div>
+
+<div id="outline-container-20-1" class="outline-3">
+<h3 id="sec-20-1"><span class="section-number-3">20.1</span> check out "dirstack handling" in grml-zshrc for persistent directory stack feature </h3>
+<div class="outline-text-3" id="text-20-1">
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-21" class="outline-2">
+<h2 id="sec-21"><span class="section-number-2">21</span> Speed up typing </h2>
+<div class="outline-text-2" id="text-21">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Long version</th><th scope="col" class="left">Short version</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">for i in $(seq 2 9); do echo $i ; done</td><td class="left">for i in {2..9}; echo $i</td></tr>
+<tr><td class="left">ls $(which vim)</td><td class="left">ls =vim</td></tr>
+<tr><td class="left">cat bar baz $PIPECHAR sort</td><td class="left">sort &lt;b{ar,az}</td></tr>
+<tr><td class="left">ls /usr/share/doc/mutt/examples</td><td class="left">ls /u/s/d/m/e&lt;tab&gt;</td></tr>
+<tr><td class="left">gzip -cd foo.gz &amp;&amp; less foo</td><td class="left">less &lt;(gzip -cd foo.gz)</td></tr>
+<tr><td class="left">ls &gt;file1; ls &gt;file2; ls &gt;file3</td><td class="left">ls &gt;file1 &gt;file2 &gt;file3</td></tr>
+<tr><td class="left">-</td><td class="left">less &lt;file1 &lt;file2</td></tr>
+<tr><td class="left">-</td><td class="left">diff &lt;(sort foo) &lt;(sort bar)</td></tr>
+<tr><td class="left">-</td><td class="left">xpdf =(zcat ~doc/grml-docs/zsh/grml-zsh-refcard.pdf.gz)</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-22" class="outline-2">
+<h2 id="sec-22"><span class="section-number-2">22</span> FAQ </h2>
+<div class="outline-text-2" id="text-22">
+
+<ol>
+<li>Q: How to I get a listing of all my currently in use options?
+
+<p>
+  Answer:
+</p>
+
+
+<pre class="example">  setopt ksh_option_print &amp;&amp; setopt
+
+or:
+
+  printf '%s=%s\n' "${(@kv)options}"
+</pre>
+
+
+</li>
+<li>Q: Why do I get "zsh: command not found:" even though I just installed the program?
+
+<p>
+  Answer: execute:
+</p>
+
+
+<pre class="example">% rehash
+</pre>
+
+
+<p>
+  or use completion system as provided by grml-zshrc (completion will rehash automatically).
+</p></li>
+<li>Q: What's this strange word splitting thing?
+
+<p>
+  Answer: see <a href="http://zsh.sourceforge.net/FAQ/zshfaq03.html">http://zsh.sourceforge.net/FAQ/zshfaq03.html</a>
+</p>
+
+
+<pre class="example">% var="foo bar"
+% args() { echo $#; }
+% args $var
+1
+% setopt shwordsplit
+% args $var
+2
+</pre>
+
+
+</li>
+</ol>
+
+</div>
+
+</div>
+
+<div id="outline-container-23" class="outline-2">
+<h2 id="sec-23"><span class="section-number-2">23</span> Important Resources </h2>
+<div class="outline-text-2" id="text-23">
+
+<ol>
+<li>Zsh Homepage: <a href="http://zsh.sourceforge.net/">http://zsh.sourceforge.net/</a>
+</li>
+<li>Zsh Wiki: <a href="http://zshwiki.org">http://zshwiki.org</a>
+</li>
+<li>Zsh Manpages: man zshall
+</li>
+<li>Zsh Reference Card: <a href="http://www.bash2zsh.com/zsh_refcard/refcard.pdf">http://www.bash2zsh.com/zsh_refcard/refcard.pdf</a>
+</li>
+<li>User's Guide to ZSH: <a href="http://zsh.sourceforge.net/Guide/">http://zsh.sourceforge.net/Guide/</a> (old but still interesting)
+</li>
+<li>Zsh Talk by caphuso:  <a href="http://ft.bewatermyfriend.org/comp/zshtalk.html">http://ft.bewatermyfriend.org/comp/zshtalk.html</a>
+</li>
+<li>English Book: <a href="http://www.bash2zsh.com/">http://www.bash2zsh.com/</a>
+</li>
+<li>German Book: <a href="http://zshbuch.org/">http://zshbuch.org/</a>
+</li>
+<li>Grml's Zsh stuff: <a href="http://grml.org/zsh/">http://grml.org/zsh/</a>
+</li>
+</ol>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-24" class="outline-2">
+<h2 id="sec-24"><span class="section-number-2">24</span> Credits </h2>
+<div class="outline-text-2" id="text-24">
+
+
+<p>
+Thanks to Frank Terbeck for reviewing and his valuable feedback (which isn't limited to this document :)).
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-25" class="outline-2">
+<h2 id="sec-25"><span class="section-number-2">25</span> Copyright </h2>
+<div class="outline-text-2" id="text-25">
+
+<p>(c) 2011 by Michael Prokop &lt;mika@grml.org&gt;
+</p>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+<p class="footnote"><sup><a class="footnum" name="fn.1" href="#fnr.1">1</a></sup> DEFINITION NOT FOUND: 1
+</p>
+</div>
+</div>
+
+</div>
+</div>
+<div id="postamble">
+<p class="date">Date: 2011-07-28 16:10:41 CEST</p>
+<p class="author">Author: </p>
+<p class="creator">Org version 7.6 with Emacs version 23</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+</div>
+</div>
+</body>
+</html>
