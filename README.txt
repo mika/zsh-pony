@@ -2,7 +2,7 @@
                              ============
 
 Author: 
-Date: 2011-07-28 16:38:28 CEST
+Date: 2011-07-29 18:13:11 CEST
 
 
 ============
@@ -246,9 +246,15 @@ Run 'bindkey -e' to get emacs-like keybindings then.
 ==========================================
 
 
+  % slash-backward-kill-word() {
+      local WORDCHARS="${WORDCHARS:s@/@}"
+      zle backward-kill-word
+  }
+  % zle -N slash-backward-kill-word
+  % bindkey '\e^?' slash-backward-kill-word
   % cd /usr/share/doc/mutt/examples/<alt+backspace>
-  % echo $WORDCHARS
-  *?_-.[]~=/&;!#$%^(){}<>
+  
+  Note: configured by default in grml-zshrc, so ready for usage out-of-the-box.
 
 
 10.6 Keybindings {up,down}-line-or-search and history-beginning-search-{backward,forward}-end 

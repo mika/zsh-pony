@@ -126,9 +126,15 @@ Run 'bindkey -e' to get emacs-like keybindings then.
 | esc-q      | push line                                                          |
 ** Remove last part from directory name
 #+BEGIN_EXAMPLE
+% slash-backward-kill-word() {
+    local WORDCHARS="${WORDCHARS:s@/@}"
+    zle backward-kill-word
+}
+% zle -N slash-backward-kill-word
+% bindkey '\e^?' slash-backward-kill-word
 % cd /usr/share/doc/mutt/examples/<alt+backspace>
-% echo $WORDCHARS
-*?_-.[]~=/&;!#$%^(){}<>
+
+Note: configured by default in grml-zshrc, so ready for usage out-of-the-box.
 #+END_EXAMPLE
 ** Keybindings {up,down}-line-or-search and history-beginning-search-{backward,forward}-end
 #+BEGIN_EXAMPLE

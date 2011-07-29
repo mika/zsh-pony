@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>The Zsh Pony</title>
 <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2011-07-28 16:38:27 CEST"/>
+<meta name="generated" content="2011-07-29 18:13:09 CEST"/>
 <meta name="author" content=""/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -504,9 +504,15 @@ Run 'bindkey -e' to get emacs-like keybindings then.
 
 
 
-<pre class="example">% cd /usr/share/doc/mutt/examples/&lt;alt+backspace&gt;
-% echo $WORDCHARS
-*?_-.[]~=/&amp;;!#$%^(){}&lt;&gt;
+<pre class="example">% slash-backward-kill-word() {
+    local WORDCHARS="${WORDCHARS:s@/@}"
+    zle backward-kill-word
+}
+% zle -N slash-backward-kill-word
+% bindkey '\e^?' slash-backward-kill-word
+% cd /usr/share/doc/mutt/examples/&lt;alt+backspace&gt;
+
+Note: configured by default in grml-zshrc, so ready for usage out-of-the-box.
 </pre>
 
 
@@ -1222,7 +1228,7 @@ Thanks to Frank Terbeck for reviewing and his valuable feedback (which isn't lim
 </div>
 </div>
 <div id="postamble">
-<p class="date">Date: 2011-07-28 16:38:27 CEST</p>
+<p class="date">Date: 2011-07-29 18:13:09 CEST</p>
 <p class="author">Author: </p>
 <p class="creator">Org version 7.6 with Emacs version 23</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
