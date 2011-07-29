@@ -2,7 +2,7 @@
                              ============
 
 Author: 
-Date: 2011-07-29 18:13:11 CEST
+Date: 2011-07-29 21:33:37 CEST
 
 
 ============
@@ -74,7 +74,7 @@ Table of Contents
 ----------
 
   The Zsh defaults to a minimalistic configuration which doesn't show the
-  potential behind this powerful and flexible shell. The Zsh ponny project
+  potential behind this powerful and flexible shell. The Zsh pony project
   provides a list of really hot stuff of what's possible with Zsh.
 
 2 Grml-zshrc 
